@@ -18,15 +18,12 @@
  *   Salida  : true (validar paridad impar) o false (validar partidad par) 
  *
  ***************************************************************************************************************/
-function paridadPar(bit){
-    bit.split
-}
-
-function paridadImpar(bit){
-    
-}
-
 let bit = prompt("Introduce el bit: ")
 while(isNaN(bit) || bit===""){
-    it = prompt("Introduce el bit: ")
+    bit = prompt("Introduce el bit: ")
+}
+const bitArray=bit.split('')
+if (bitArray.every(el=>el==0||el==1)){
+    nUnos=bitArray.filter(el=>el==1).length
+    nUnos%2==0&&bitArray[bitArray.length-1]==1
 }

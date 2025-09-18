@@ -12,12 +12,25 @@
  *   Salida  : El mayor de numero1, numero2, numero3,.... es ....
  *
  ***************************************************************************************************************/
+let i = 1
+let num = 0
+let maximo = num
+let numeros = /*''*/[]
 
-const numeros=[]
-let num=0
 do {
-    num=parseInt(prompt("Introduce un número: "))
-    if(num!==0 && num!==""){
-        
+    num=parseFloat(prompt(`Introduce el nùmero ${i} : `))
+    if(!isNaN(num) && num!==0){
+        /*numeros+=`${numeros}, `*/
+        numeros.push(num)
+        maximo = Math.max(num, maximo)
     }
+    i++
 } while (num!==0)
+
+    // let resultado=maximo!=0?
+    // `El mayor de ${numeros.slice(0, -2)} es ${maximo}`:
+    // `Tienes que introducir numeros antes que el 0`
+    let resultado=maximo!=0?
+    `El mayor de ${numeros} es ${maximo}`:
+    `Tienes que introducir numeros antes que el 0`
+    console.log(resultado)
