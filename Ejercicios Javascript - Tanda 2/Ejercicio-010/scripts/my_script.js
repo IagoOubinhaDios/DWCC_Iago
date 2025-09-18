@@ -36,8 +36,8 @@ function numMayor(n1,n2,n3){
     return resultado
 }
 
-/*let numeros=[2134, 456, 21, 454]
-let max=Math.max(...numeros) //Separa el array y compara*/
+let numeros=[2134, 456, 21, 454]
+let max=Math.max(...numeros) //Separa el array y compara
 
 let resultado = numMayor(n1,n2,n3)
 
