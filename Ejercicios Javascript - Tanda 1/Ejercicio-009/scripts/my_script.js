@@ -24,8 +24,8 @@ let nPeques=parseInt(prompt("Número de niños: "))
 while (isNaN(nPeques) || nPeques <= 0 || nPeques===""){
     nPeques=parseInt(prompt("Número de niños: "))
 }
-let porNino = Math.floor(nCaramelos / nPeques);
+let porNinho = Math.floor(nCaramelos / nPeques);
 let sobrantes = nCaramelos % nPeques;
-console.log(`El número de caramelos por niño es: ${porNino}`);
+console.log(`El número de caramelos por niño es: ${porNinho}`);
 console.log(`El número de caramelos que sobran es: ${sobrantes}`);
 
