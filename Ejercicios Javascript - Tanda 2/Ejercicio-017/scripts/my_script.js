@@ -13,3 +13,15 @@
  *   Salida  : El número n es|no es automórfico
  *
  ***************************************************************************************************************/
+function esAutomorfico(num){
+    let resultado=`${num*num}`
+    let automórfico=resultado.endsWith(`${num}`)
+    return automórfico
+}
+let num=parseInt(prompt("Introduce un número:"))
+while(isNaN(num) || num===""){
+    num=parseInt(prompt("Introduce un número:"))
+}
+let resultado=esAutomorfico(num)?
+`El número ${num} es automórfico`:`El número ${num} no es automórfico`
+console.log(resultado)

@@ -17,3 +17,12 @@
  *   Salida  : 1, 3, 5, 7, ...
  *
  ***************************************************************************************************************/
+function numPrimos(num){
+    
+}
+
+let num=parseInt(prompt("Introduce un número:"))
+while(isNaN(num) || num===""){
+    num=parseInt(prompt("Introduce un número:"))
+}
+console.log(numPrimos(num))

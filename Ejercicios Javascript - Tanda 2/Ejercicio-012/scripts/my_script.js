@@ -23,10 +23,10 @@ let num=parseInt(prompt("Introduce un número del 1 al 20"))
 while(isNaN(num) || num==="" || num<1 || num>20){
     num=parseInt(prompt("Introduce un número del 1 al 20"))
 }
-let piramide = ''
+let piramide=''
 
 for(let x=1;x<=num;x++){
-    for(let i=1; i<=x; i++){
+    for(let i=1;i<=x;i++){
         piramide+=`${x}`
     }
     piramide+='\n'

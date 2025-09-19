@@ -14,3 +14,19 @@
  *   Salida  : inicio², (inicio+1)², ..... (fin)²
  *
  ***************************************************************************************************************/
+function cuadradoNumMap(numIni,numFin){
+    let resultado=""
+    const numeros=Array.from({length:numFin-numIni},(el,i)=>i+1)
+    resultado+=`${numIni*numIni},`
+    resultado+=numeros.map(el=>`${(numIni+el)*(numIni+el)}`)
+    return resultado
+}
+let numIni=parseInt(prompt("Introduce el número de inicio: "))
+while(isNaN(numIni) || numIni===""){
+    numIni=parseInt(prompt("Introduce el número de inicio: "))
+}
+let numFin=parseInt(prompt("Introduce el número de fin: "))
+while(isNaN(numFin) || numFin==="" || numFin<numIni){
+    numFin=parseInt(prompt("Introduce el número de fin: "))
+}
+console.log(cuadradoNumMap(numIni,numFin))
