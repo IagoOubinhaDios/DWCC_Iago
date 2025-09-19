@@ -15,3 +15,11 @@
  *   Salida  :
  *
  ***************************************************************************************************************/
+function numPerfectosMenores(num){
+    let resultado=""
+    return resultado
+}
+let num=parseInt(prompt("Introduce un número:"))
+while(isNaN(num) || num===""){
+    num=parseInt(prompt("Introduce un número:"))
+}
