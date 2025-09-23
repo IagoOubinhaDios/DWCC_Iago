@@ -33,3 +33,22 @@
  *   Salida  : tabla html que muestre la Frecuencia cardíaca para Intensdidades del 55% al 95%
  *
  ***************************************************************************************************************/
+let intensidadMin=55
+let intensidadMax=95
+function frecuenciaCardiaca(edad, frecuenciaDescanso, intensidad){
+    return (((220-edad)-frecuenciaDescanso)*intensidad)+frecuenciaDescanso
+}
+
+function frecuenciasCardiacas(edad, frecuenciaDescanso){
+    const frecuencias=Array.from({length:intensidadMax-intensidadMin},(el,i)=>i+1)
+}
+
+let edad=parseInt(prompt("Introduce tu edad"))
+while(isNaN(edad) && edad==="" && edad<1 && edad>100){
+    edad=parseInt(prompt("Introduce tu edad"))
+}
+let frecuenciaDescanso=parseInt(prompt("Introduce tu frecuencia"))
+while(isNaN(frecuenciaDescanso) && frecuenciaDescanso===""){
+    frecuenciaDescanso=parseInt(prompt("Introduce tu frecuencia"))
+}
+

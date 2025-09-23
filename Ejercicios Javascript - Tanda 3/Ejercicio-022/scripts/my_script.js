@@ -16,3 +16,28 @@
  *   Salida  : La secuencia de valores obtenida
  *
  ***************************************************************************************************************/
+function secuenciaValores1(num){
+    const secuencia=[num]
+    let nuevoNum=num
+    do{
+        if(nuevoNum%2==0){
+            nuevoNum/=2
+        }else{
+            nuevoNum=nuevoNum*3+1
+        }
+        secuencia.push(nuevoNum)
+    }while(nuevoNum!=1)
+    return secuencia
+}
+
+function secuenciaValores2(num){
+    // const secuencia=[num]
+    
+    // return secuencia
+}
+
+let num=parseInt(prompt("Introduce un número entre 1y 100"))
+while(isNaN(num) && num==="" && num<1 && num>100){
+    num=parseInt(prompt("Introduce un número entre 1y 100"))
+}
+console.log(secuenciaValores1(num))

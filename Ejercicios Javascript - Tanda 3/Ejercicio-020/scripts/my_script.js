@@ -17,3 +17,28 @@
  *             ! Has fallado ! El número que tienes que adivinar es (mayor|menor)
  *
  ***************************************************************************************************************/
+function enteroAleatorioMinMax(min,max){
+    return parseInt((Math.random()*max)+min)
+}
+
+function mayorMenorNum(num, numAleatorio){
+    let resultado="mayor"
+    if(numAleatorio<num){
+        resultado="menor"
+    }
+    return resultado
+}
+
+let num=0
+let numAleatorio=enteroAleatorioMinMax(1,100)
+let numIntentos=0
+let mensaje=""
+console.log(numAleatorio)
+while(num!=numAleatorio){
+    num=parseInt(prompt("Adivine el número del 1 al 100: "))
+    numIntentos+=num==numAleatorio?0:1
+    mensaje=num==numAleatorio?
+    `Has acertado! Has necesitado ${numIntentos} intentos`:
+    `Has fallado! El número que tienes que adivinar es ${mayorMenorNum(num,numAleatorio)}`
+    console.log(mensaje)
+}
