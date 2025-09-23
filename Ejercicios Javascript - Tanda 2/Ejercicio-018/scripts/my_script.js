@@ -17,12 +17,46 @@
  *   Salida  : 1, 3, 5, 7, ...
  *
  ***************************************************************************************************************/
-function numPrimos(num){
-    
+function esPrimo1(num){
+    let contador=0
+
+    for(let i=0; i<num; i++){
+        if(num%i==0){
+            contador++
+        }
+    }
+
+    return contador<=1
+}
+
+function esPrimo2(num){
+    return Array.from({length:num-1},(el,i)=>i+1).filter(el=>num%i==0).length<=1
+}
+
+function numPrimos1(num){
+    const primos=[]
+    let contador=0
+    for (let i=1; i<num; i++){
+        for (let j=0; j<i; j++){
+            if (i%j==0){
+                contador++
+            }
+        }
+        if (!contador<=1){
+            primos.push(i)
+        }
+        contador=0
+    }
+    return primos
+}
+
+function numPrimos2(num){
+    const numeros=Array.from({length:num},(el,i)=>i+1)
+    return numeros.filter(el=>esPrimo2(el))
 }
 
 let num=parseInt(prompt("Introduce un número:"))
 while(isNaN(num) || num===""){
     num=parseInt(prompt("Introduce un número:"))
 }
-console.log(numPrimos(num))
+console.log(numPrimos2(num))
