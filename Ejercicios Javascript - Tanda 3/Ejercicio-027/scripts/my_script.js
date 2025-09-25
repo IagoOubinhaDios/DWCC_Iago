@@ -10,3 +10,9 @@
  *   Salida  : Secuencia: "0000"   Posicion: 3
  *
  ***************************************************************************************************************/
+
+
+let secuencia=parseInt(prompt("Introduce una secuencia: "))
+while(isNaN(secuencia) && secuencia===""){
+    secuencia=parseInt(prompt("Introduce una secuencia: "))
+}

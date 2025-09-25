@@ -19,3 +19,21 @@
  *             Palabras ordenadas de la z a la a: ZZZ YYYY WWWW
  *
  ***************************************************************************************************************/
+function salidaCaracteres(caracteres){
+    let resultado=caracteres
+    const palabras=caracteres.split(" ")
+    let numPalabras=palabras.length
+    resultado+=`\nNumero de palabras: ${numPalabras}
+    \nPrimera palabra: ${palabras[0]}
+    \nÚltima palabra: ${palabras[palabras.length-1]}
+    \nPalabras ordenadas de la A a la Z: 
+    \nPalabras ordenadas de la Z a la A: `
+    return resultado
+}
+
+let caracteres=prompt("Introduce una cadena de caracteres:")
+while(caracteres===""){
+    caracteres=prompt("Introduce una cadena de caracteres:")
+}
+let resultado=salidaCaracteres(caracteres)
+console.log(resultado)

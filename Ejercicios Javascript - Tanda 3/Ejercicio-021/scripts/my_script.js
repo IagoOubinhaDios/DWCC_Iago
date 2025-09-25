@@ -24,3 +24,31 @@
  *             con un nivel en sangre de alcohol de 0.08
  *
  ***************************************************************************************************************/
+let nivelSangreValido=0.08
+
+function legalONo(peso, genero, copas, tiempo){
+    let numGenero=genero=='H'?0.73:0.66
+    let alcoholEnSangre=(copas*5.14/peso*numGenero)-0.015*tiempo
+    return alcoholEnSangre<=nivelSangreValido
+}
+
+let peso=parseInt(prompt("Introduce tu peso: "))
+while(isNaN(peso) && peso===""){
+    peso=parseInt(prompt("Introduce tu peso: "))
+}
+let genero=prompt("Introduce tu genero(H/M): ")
+while(genero==="" && genero!=="H" && genero!="M"){
+    genero=prompt("Introduce tu genero(H/M): ")
+}
+let copas=parseInt(prompt("Introduce las copas que has bebido: "))
+while(isNaN(copas) && copas===""){
+    copas=parseInt(prompt("Introduce las copas que has bebido: "))
+}
+let tiempo=parseInt(prompt("Introduce las horas desde la última copa: "))
+while(isNaN(tiempo) && tiempo===""){
+    tiempo=parseInt(prompt("Introduce las horas desde la última copa: "))
+
+}
+
+let resultado=legalONo(peso, genero, copas, tiempo)?"válido":"NO válido"
+console.log(`Su nivel de sangre es ${resultado}`)
