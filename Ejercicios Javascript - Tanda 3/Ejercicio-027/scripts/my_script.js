@@ -10,9 +10,22 @@
  *   Salida  : Secuencia: "0000"   Posicion: 3
  *
  ***************************************************************************************************************/
-
-
-let secuencia=parseInt(prompt("Introduce una secuencia: "))
-while(isNaN(secuencia) && secuencia===""){
-    secuencia=parseInt(prompt("Introduce una secuencia: "))
+function secuenciaMasLargaCeros1(secuencia) {
+    let secuenciaCerosComprobar = "0";
+    let secuenciaCeros = "";
+    while(secuencia.includes(secuenciaCerosComprobar)){
+        secuenciaCeros = secuenciaCerosComprobar;
+        secuenciaCerosComprobar += "0";
+    }
+    return `Cadena: ${secuencia}, Secuencia: ${secuenciaCeros}, Posicion: ${secuencia.indexOf(secuenciaCeros)}`;
 }
+
+function secuenciaMasLargaCeros2(secuencia) {
+
+}
+
+let secuencia = prompt("Introduce una secuencia: ");
+while (isNaN(secuencia) && secuencia === "") {
+    secuencia = prompt("Introduce una secuencia: ");
+}
+console.log(`${secuenciaMasLargaCeros1(secuencia)}`);

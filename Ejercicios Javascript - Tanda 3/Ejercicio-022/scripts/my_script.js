@@ -16,28 +16,63 @@
  *   Salida  : La secuencia de valores obtenida
  *
  ***************************************************************************************************************/
-function secuenciaValores1(num){
+function secuenciaValoresIterativa1(num){
     const secuencia=[num]
     let nuevoNum=num
-    do{
-        if(nuevoNum%2==0){
-            nuevoNum/=2
-        }else{
-            nuevoNum=nuevoNum*3+1
-        }
+    while(nuevoNum!=1){
+        nuevoNum%2==0 ? nuevoNum/=2 : nuevoNum=nuevoNum*3+1
         secuencia.push(nuevoNum)
-    }while(nuevoNum!=1)
+    }
     return secuencia
 }
 
-function secuenciaValores2(num){
-    // const secuencia=[num]
-    
-    // return secuencia
+function secuenciaValoresIterativa2(num){
+    let secuencia=`${num}`
+    let nuevoNum=num
+    while(nuevoNum!=1){
+        nuevoNum%2==0 ? nuevoNum/=2 : nuevoNum=nuevoNum*3+1
+        secuencia+=`--> ${nuevoNum}`
+    }
+    return `${secuencia}`
+}
+
+function secuenciaValoresRecursiva1(num){
+    if(num==1){
+        return num
+    }
+    num%2==0 
+    ? `${num}--> ${secuenciaValoresRecursiva1(num/2)}` 
+    : `${num}--> ${secuenciaValoresRecursiva1(num*3+1)}`
+}
+
+function secuenciaValoresRecursiva2(secuencia){
+    let num=secuencia[secuencia.length-1]
+    if(num==1){
+        return secuencia
+    }
+    num%2==0 
+    ? secuencia.push(n/2)
+    : secuencia.push(n*3+1)
+
+    return secuenciaValoresRecursiva2(secuencia)
+}
+
+function secuenciaValoresRecursiva3(...secuencia){
+    let num=secuencia[secuencia.length-1]
+    if(num==1){
+        return secuencia
+    }
+    num%2==0 
+    ? secuencia.push(n/2)
+    : secuencia.push(n*3+1)
+
+    return secuenciaValoresRecursiva3(...secuencia)
 }
 
 let num=parseInt(prompt("Introduce un número entre 1y 100"))
 while(isNaN(num) && num==="" && num<1 && num>100){
     num=parseInt(prompt("Introduce un número entre 1y 100"))
 }
-console.log(secuenciaValores1(num))
+console.log(`${secuenciaValoresIterativa1(num)} 
+          \n ${secuenciaValoresIterativa2(num)}
+          \n ${secuenciaValoresRecursiva1(num)}`)

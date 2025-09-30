@@ -27,7 +27,7 @@
 let nivelSangreValido=0.08
 
 function legalONo(peso, genero, copas, tiempo){
-    let numGenero=genero=='H'?0.73:0.66
+    let numGenero=genero=='H' ? 0.73 : 0.66
     let alcoholEnSangre=(copas*5.14/peso*numGenero)-0.015*tiempo
     return alcoholEnSangre<=nivelSangreValido
 }

@@ -20,5 +20,14 @@
  *              ************
   *
  ***************************************************************************************************************/
+function textoCuadrado(texto){
+    
+}
+
+let texto=prompt("Introduce un texto:")
+while(texto===""){
+    texto=prompt("Introduce un texto:")
+}
+
 
 

@@ -12,5 +12,12 @@
  *   Salida  : La cadena .... (es|no es) un palíndromo
  *
  ***************************************************************************************************************/
+function esPalindromo(texto){
+    
+}
 
+let texto=prompt("Introduce la cadena de texto:")
+while(texto===""){
+    texto=prompt("Introduce la cadena de texto:")
+}
 
