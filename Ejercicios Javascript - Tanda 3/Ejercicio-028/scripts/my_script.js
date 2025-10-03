@@ -48,8 +48,20 @@ function iterativoFibonacci2(tamaño) {
   return cadena;
 }
 
-// function recursivoFibonacci2(tamaño, posicion, cadena) {
-  
-// }
+function fiboRecursivo(n){
+  if(n<=1){
+    return n
+  }
+  return fiboRecursivo(n-1)+fiboRecursivo(n-2)
+}
 
-console.log(`${iterativoFibonacci1(17)}\n`,`${recursivoFibonacci1(14, 0, [])}\n`,`${iterativoFibonacci2(15)}`);
+function recursivoFibonacci2(tamaño) {
+  const cadena = Array.from({ length: tamaño },(el,i)=>i).map(el=>fiboRecursivo(el));
+  cadena.map((el, i) =>
+    i <= 1 ? (cadena[i] = i) : (cadena[i] = cadena[i - 2] + cadena[i - 1])
+  );
+  return cadena;
+}
+
+console.log(`${iterativoFibonacci1(17)}\n`,`${recursivoFibonacci1(14, 0, [])}\n`,
+`${iterativoFibonacci2(15)}\n`,`${recursivoFibonacci2(12)}`);
