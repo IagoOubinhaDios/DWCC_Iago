@@ -19,3 +19,31 @@
  *   Salida  : Como has nacido el dia de mes de año, tu número de la suerte es XXX
  *
  ***************************************************************************************************************/
+
+function numSuerte(dia, mes, anho){
+    let num=dia+mes+anho
+    let digitos=[]
+    do {
+        digitos=num.toString().split('')
+        digitos.reduce((anterior,actual)=>num=parseInt(anterior)+parseInt(actual))
+    } while(digitos.length>1)
+    num=digitos[0]
+    return num
+}
+
+let anho=parseInt(prompt("Introduce tu año de nacimiento: "))
+while(isNaN(anho) || anho===""){
+    anho=parseInt(prompt("Introduce tu año de nacimiento: "))
+}
+
+let mes=parseInt(prompt("Introduce tu mes de nacimiento: "))
+while(isNaN(mes) || mes===""){
+    mes=parseInt(prompt("Introduce tu mes de nacimiento: "))
+}
+
+let dia=parseInt(prompt("Introduce tu dia de nacimiento: "))
+while(isNaN(dia) || dia===""){
+    dia=parseInt(prompt("Introduce tu dia de nacimiento: "))
+}
+
+console.log(`Como has nacido el ${dia} de ${mes} de ${anho}, tu número de la suerte es ${numSuerte(dia, mes, anho)}`)
