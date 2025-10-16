@@ -1,8 +1,6 @@
 const $d = document,
   $lista = $d.querySelector(".item-list"),
-  $categoriasFiltrar = $d.querySelector(".btn-categorias"),
-  $items = $d.querySelector("#item"),
-  $categorias = $d.querySelector("#btn-categoria");
+  $categorias = $d.querySelector(".btn-categorias");
 
 const items = [
   {
@@ -48,7 +46,7 @@ const items = [
   {
     id: 6,
     name: "oreo dream",
-    category: "batidos",
+    category: "almuerzo",
     price: 18.99,
     img: "./images/item-7.jpeg",
     desc: `carry jianbing normcore freegan. Viral single-origin coffee live-edge, pork belly cloud bread iceland put a bird `,
@@ -91,16 +89,33 @@ function renderPlatos(items) {
   );
 }
 
-function renderCategorias(categorias) {
-  $categoriasFiltrar.innerHTML = categorias.reduce(
-    (anterior, actual) =>
+function renderCategorias(categorias, selectId) {
+  const todos = `<button type="button" class="btn-categoria" ${
+    selectId == 0 ? "seleccionado" : ""
+  } data-id="0">Todos</button>`;
+  $categorias.innerHTML = categorias.reduce(
+    (anterior, actual, i) =>
       anterior +
-      `<button type="button" class="btn-categoria" data-id="#">${actual}</button>`,
-    `<button type="button" class="btn-categoria" data-id="#">Todos</button>`
+      `<button type="button" class="btn-categoria" ${
+        i == selectId ? "seleccionado" : ""
+      } data-id="${i + 1}">${actual}</button>`,
+    todos
   );
 }
 
+$categorias.addEventListener("click", (ev) => {
+  ev.preventDefault();
+
+  let id = ev.target.dataset.id;
+  let itemsFiltrados = []
+  if (id) {
+    itemsFiltrados = id == 0 ? items : items.filter((item) => item.category.toLowerCase() == ev.target.textContent.trim().toLowerCase());
+  }
+  renderPlatos(itemsFiltrados);
+  renderCategorias(categorias, id);
+});
+
 $d.addEventListener("DOMContentLoaded", (ev) => {
   renderPlatos(items);
-  renderCategorias(categorias);
+  renderCategorias(categorias, 0);
 });

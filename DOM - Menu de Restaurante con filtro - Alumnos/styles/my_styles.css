@@ -37,7 +37,8 @@ Variables
   --clr-red-dark: hsl(360, 67%, 44%);
   --clr-red-light: hsl(360, 71%, 66%);
   --clr-green-dark: hsl(125, 67%, 44%);
-  --clr-green-light: hsl(125, 71%, 66%);
+  --clr-green-light: hsl(125,
+  `<button type="button" class="btn-categoria" data-id="#">Todos</button>`, 71%, 66%);
   --clr-gold: #c59d5f;
   --clr-black: #222;
   --ff-primary: "Roboto", sans-serif;
@@ -201,6 +202,10 @@ Menu
   transition: var(--transition);
 }
 .btn-categoria:hover {
+  background: var(--clr-gold);
+  color: var(--clr-white);
+}
+.btn-categoria.seleccionado {
   background: var(--clr-gold);
   color: var(--clr-white);
 }
