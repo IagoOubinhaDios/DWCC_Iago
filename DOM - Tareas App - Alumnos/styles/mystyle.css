@@ -1,3 +1,7 @@
 .tachado {
     text-decoration: line-through;
 }
+
+.off {
+    color: gray;
+}
