@@ -42,5 +42,5 @@ while (isNaN(dineroTotal) || dineroTotal < 1 || dineroTotal > 10000000000) {
 }
 
 console.log(
-  `Jaime ha tardado ${cuandoSereRico(dineroTotal)} días en hacerse rico. ¡Que suerte!`
+  `Jaime ha tardado ${cuandoSereRico2(dineroTotal)} días en hacerse rico. ¡Que suerte!`
 );

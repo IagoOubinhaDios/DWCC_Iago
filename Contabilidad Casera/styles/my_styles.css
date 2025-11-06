@@ -1,0 +1,254 @@
+@import "fonts.css";
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --fuente-titulos: "Titillium Web SemiBold", sans-serif;
+  --color-primario: #6d4747;
+  --color-secundario: #ff8c8c5a;
+  --color-fondo-primario: #7690b9;
+  --color-boton: #3d5a85;
+  --color-fondo-secundario: #f6f3ee;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 14px;
+  line-height: 1.6rem;
+}
+
+.logo {
+  max-width: 80px;
+}
+
+img {
+  width: 100%;
+}
+
+body {
+  background: var(--color-fondo-primario);
+  color: var(--color-primario);
+}
+
+/* Estilos del main */
+main {
+  width: 100%;
+  border-bottom: medium solid var(--color-primario);
+}
+
+/* Estilos del header */
+header {
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-fondo-secundario);
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--color-primario);
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  font-family: var(--fuente-titulos);
+}
+
+/* Estilos del section content */
+.content {
+  background-color: #fafafa;
+}
+.content:first-of-type {
+  padding: 1rem 0.5rem;
+}
+
+/* Estilos del formulario */
+form {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.form-line {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.7rem 0;
+  gap: 1rem;
+}
+
+.form-line p {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 1rem; */
+}
+
+label {
+  /* display: inline-block; */
+  min-width: 7rem;
+  font-size: 1.2rem;
+}
+
+/* para los input y select ancho máximo de 150px. border-radius 5px sin borde con línea del elemento de color --color-primario 
+cursor de tipo text*/
+form :where(input, select) {
+  max-width: 150px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  outline: 1px solid var(--color-primario);
+  border: none;
+  cursor: text;
+}
+
+form input:hover {
+  background-color: var(--color-secundario);
+}
+
+form input[type="radio"] + label{
+  padding-left: 0.5rem;  
+}
+
+
+form input[type="text"]:invalid:not(:placeholder-shown) {
+  outline-color: red;
+}
+/*La pseudo-clase (en-US) :placeholder-shown de CSS representa cualquier elemento <input> o <textarea> que esté mostrando actualmente el texto de marcador de posición (placeholder).*/
+form input[type="text"]:placeholder-shown {
+  outline-color: var(--color-primario);
+}
+
+/* Acorta el texto de las cajas de texto cuando este no cabe
+text-overflow determina como el contenido que se desborda y que no es mostrado, va a hacérsele notar a los usuarios. Puede ser cortado, mostrar una elipsis ('…', U+2026 Horizontal Ellipsis), o mostrar una cadena de texto personalizada.*/
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
+
+/* para los p que tienen dentro un button - utiliza una componente lógica*/
+form p:has(button) {
+  text-align: center;
+}
+
+/* para firefox */
+form .btn {
+  text-align: center;
+}
+
+/* table style */
+table {
+  width: 100%;
+}
+
+thead {
+  background-color: var(--color-primario);
+  color: #fafafa;
+}
+td,
+th {
+  padding: 0.35rem;
+  text-align: center;
+}
+
+tfoot {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+/* Estilos del Button */
+
+button {
+  padding: 0.5rem;
+  margin: 1rem 0;
+  color: #fafafa;
+  text-align: center;
+  font-size: 1.3rem;
+  background-color: var(--color-primario);
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px #666;
+}
+
+button:hover {
+  background-color: var(--color-boton);
+  border-color: var(--color-boton);
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.revertir{
+  text-decoration: line-through;
+  background-color: #bbbbbb
+}
+
+.ingreso{
+  background-color:aquamarine;
+}
+
+.egreso{
+  background-color: #ffcccc
+}
+
+.saldoTotal{
+  padding: 3px;
+  border-radius: 5px;
+  color:black;
+}
+
+.fa-undo-alt{
+  color: green;
+}
+
+.fa-trash {
+  color: red;
+}
+
+i{
+  padding: 7px;   
+}
+
+i:hover{
+  transform: scale(1.5);
+}
+
+/** Media queries **/
+@media screen and (min-width: 700px) {
+  body {
+    background: var(--color-fondo-primario);
+    color: var(--color-primario);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+  }
+  /* Estilos del main */
+  main {
+    max-width: 680px;
+    box-shadow: 4px 4px 15px #0e1622;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .content {
+    margin: 0 auto;
+    background-color: #fafafa;
+    padding: 1rem 2rem;
+  }
+
+  .form-line {
+    /* justify-content: space-around; */
+    justify-content: center;
+  }
+
+  label {
+    display: inline;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  :root {
+    font-size: 16px;
+  }
+}
