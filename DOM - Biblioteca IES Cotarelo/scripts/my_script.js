@@ -53,11 +53,10 @@ function renderLibros(libros) {
   $libros.innerHTML = libros.reduce(
     (anterior, actual, i) =>
       anterior +
-      `
-    <li>
-    <span class="titulo">${actual}</span>
-    <span class="borrar" data-libro-id="${i}">-</span>
-    </li>`,
+      `<li>
+      <span class="titulo">${actual}</span>
+      <span class="borrar" data-libro-id="${i}">-</span>
+      </li>`,
     ""
   );
 }

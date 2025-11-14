@@ -3,6 +3,7 @@ const $d = document,
   $carritoBody = $d.querySelector("#body-carrito"),
   $carritoFooter = $d.querySelector("#footer-carrito"),
   $tProducto = $d.querySelector("#template-producto").content;
+  const $vaciar = $carritoFooter.querySelector("#vaciar-carrito");
 
 const productos = [
     {
@@ -92,7 +93,7 @@ function renderProductosReduce(productos) {
         </div>`, '');
 }
 
-function renderCarrito(productos, carrito){
+/*function renderCarrito(productos, carrito){
     $carritoBody.innerHTML = carrito.reduce((anterior, actual, i) => {
 
         let producto = productos.find(el => el.id == actual.productoId);
@@ -113,18 +114,30 @@ function renderCarrito(productos, carrito){
         <td>${totalProducto}</td>
       </tr>`
     }, '');
-}
+}*/
 
 function renderCarrito(productos, carrito){
     let totalCarrito = 0;
     let nProductos = 0;
-    $carritoBody.innerHTML = carrito.reduce((anterior, actual) => {
+    $carritoBody.innerHTML = carrito.reduce((anterior, actual, i) => {
       let producto = productos.find(el=>el.id==actual.productoId)
       let totalProducto=actual.cantidad*producto.precio
       totalCarrito+=totalProducto
       nProductos+=actual.cantidad
   
       return anterior+`<tr>
+        <td>${i+1}</td>
+        <td>${producto.title}</td>
+        <td>${actual.cantidad}</td>
+        <td>
+            <button class="btn btn-info btn-sm" data-id="${producto.id}">
+                +
+            </button>
+            <button class="btn btn-danger btn-sm" data-id="${producto.id}">
+                -
+            </button>
+        </td>
+        <td>${totalProducto}</td>
       </tr>`
     }, '');
   
@@ -136,22 +149,21 @@ function renderCarrito(productos, carrito){
     
     const $vaciar = $carritoFooter.querySelector("#vaciar-carrito");
     if ($vaciar){
-        carrito.splice(0, carrito.length-1);
+        carrito.splice(0, carrito.length);
     }
     renderCarrito(productos, carrito);}
   )
   
   function renderCarritoFooter(nProductos, total){
-    $carritoFooter.innerHTML=nProductos;
-    $vaciar.addEventListener("click", ev=>{nProductos?
+    $carritoFooter.innerHTML=nProductos?
     `<th scope="row" colspan="2">Total productos</th>
     <td>${nProductos}</td>
     <td>
     <button class="btn btn-danger btn-sm" id="vaciar-carrito">Vaciar carrito</button>
     </td>
     <td class="font-weight-bold"><span>${total}</span>&euro;</td>`
-    :`<th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>`
-  })}
+    :`<th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>`;
+  }
 
 $listaProductos.addEventListener("click", ev => {
     ev.preventDefault();
@@ -195,7 +207,7 @@ $carritoBody.addEventListener("click", ev => {
         } else if(ev.target.classList.contains('btn-danger')){
             producto.cantidad--;
             if(producto.cantidad <= 0){
-                carrito.splice(indice, 1);
+              carrito.splice(indice, 1);
             }
         }
 

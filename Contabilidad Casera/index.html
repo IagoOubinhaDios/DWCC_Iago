@@ -9,7 +9,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="styles/my_styles.css" />
-    <script src="scripts/my_script.js"></script>
+    <script src="scripts/my_script.js" defer></script>
     <title>Contabilidad Casera</title>
   </head>
 
@@ -26,13 +26,7 @@
         <form>
           <div class="form-line" role="group" id="groupGastos">
             <p>
-              <input
-                type="radio"
-                name="operacion"
-                id="ingreso"
-                value="0"
-                checked
-              />
+              <input type="radio"  name="operacion" id="ingreso" value="0" checked/>
               <label for="ingreso">Ingreso</label>
             </p>
             <p>
@@ -43,16 +37,11 @@
           <div class="form-line" role="group" id="groupGastos">
             <p>
               <label for="concepto">Concepto</label>
-              <input type="text" name="concepto" placeholder="Luz" />
+              <input type="text" id="concepto" placeholder="Luz" />
             </p>
             <p>
               <label for="cantidad">Cantidad</label>
-              <input
-                type="text"
-                id="cantidad"
-                pattern="[0-9]{1,}"
-                placeholder="50"
-              />
+              <input type="text" id="cantidad" pattern="[0-9]{1,}" placeholder="50"/>
             </p>
           </div>
           <p class="btn">
