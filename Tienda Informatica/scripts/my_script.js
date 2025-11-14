@@ -80,7 +80,7 @@ const $d = document,
   $productoscarrito = $d.querySelector(".card-items"),
   $cantidadProductosCarrito = $d.querySelector(".count-product"),
   $totalCarrito = $d.querySelector("#productos-id>h2"),
-  $borrar = $d.querySelector(".");
+  $borrar = $d.querySelector(".close-btn");
 
 function renderProductos(productos) {
   $productos.innerHTML = productos.reduce(
