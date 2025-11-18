@@ -80,7 +80,9 @@ const $d = document,
   $productoscarrito = $d.querySelector(".card-items"),
   $cantidadProductosCarrito = $d.querySelector(".count-product"),
   $totalCarrito = $d.querySelector("#productos-id>h2"),
-  $borrar = $d.querySelector(".close-btn");
+  $carrito = $d.querySelector(".cart-productos"),
+  $showCarrito = $d.querySelector(".cart"),
+  $cerrarCarrito = $d.querySelector(".close-btn");
 
 function renderProductos(productos) {
   $productos.innerHTML = productos.reduce(
@@ -105,15 +107,15 @@ function renderCarrito(productos, carrito) {
   let totalCarrito = 0;
   $productoscarrito.innerHTML = carrito.reduce((anterior, actual) => {
     let producto = productos.find((el) => el.id == parseInt(actual.productoId));
-    let totalProducto = actual.cantidad*producto.precio;
-    totalCarrito+=totalProducto;
+    let totalProducto = actual.cantidad * producto.precio;
+    totalCarrito += totalProducto;
     return (
       anterior +
       ` <div class="item">
       <img src="${producto.img}" alt="#" />
       <div class="item-content">
         <h5>${producto.nombre}</h5>
-        <h5 class="cart-price">${totalProducto}</h5>€
+        <h5 class="cart-price">${totalProducto.toFixed(2)}€</h5>
         <h6>
           Cantidad: <span>${actual.cantidad}</span>
         </h6>
@@ -122,12 +124,7 @@ function renderCarrito(productos, carrito) {
     </div>`
     );
   }, "");
-
-  renderTotal(totalCarrito);
-}
-
-function renderTotal(totalCarrito){
-  $totalCarrito.textContent = totalCarrito;
+  $totalCarrito.textContent = "Total: " + totalCarrito.toFixed(2) + "€";
 }
 
 $productos.addEventListener("click", (ev) => {
@@ -142,9 +139,21 @@ $productos.addEventListener("click", (ev) => {
       producto.cantidad++;
     }
   }
-
   renderCarrito(productos, carrito);
 });
+
+$showCarrito.addEventListener("click", ev => $carrito.style.display = "block")
+
+$cerrarCarrito.addEventListener("click", ev => $carrito.style.display = "none");
+
+$carrito.addEventListener("click", (ev) => {
+  let id = ev.target.dataset.id;
+  if (id){
+    let index = carrito.findIndex(el => el.id == id);
+    carrito.splice(index, 1);
+  }
+  renderCarrito(productos, carrito);
+})
 
 $d.addEventListener("DOMContentLoaded", (ev) => {
   renderCarrito(productos, carrito);
