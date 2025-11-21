@@ -1,0 +1,26 @@
+.success, .error {
+  color: white;
+  padding: 5px;
+  margin: 5px 0 15px 0;
+}
+
+.success {
+  background: green;
+}
+
+.error {
+  background: red;
+}
+
+i.fa-trash{
+  color:red;
+  margin-left: 5px;;
+}
+
+i.fa-check{
+  color:green;
+}
+
+i.off{
+  color:lightgray;
+}

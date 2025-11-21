@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
+    />
+    <link rel="stylesheet" href="styles/my_styles.css" />
+    <script
+      src="https://kit.fontawesome.com/92b307c4d1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="scripts/my_script.js" defer></script>
+    <title>Lista de Libros</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestionar Libros</h1>
+      <form id="libro-form">
+        <div>
+          <label for="titulo">Titulo</label>
+          <input type="text" id="titulo" class="u-full-width" />
+        </div>
+        <div>
+          <label for="autor">Autor</label>
+          <input type="text" id="autor" class="u-full-width" />
+        </div>
+        <div>
+          <label for="isbn">ISBN#</label>
+          <input type="text" id="isbn" class="u-full-width" />
+        </div>
+        <div>
+          <input type="submit" value="Submit" class="u-full-width" />
+        </div>
+      </form>
+      <table class="u-full-width">
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="lista-libros"></tbody>
+      </table>
+    </div>
+
+    <template id="template-libro">
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </td>
+      </tr>
+    </template>
+  </body>
+</html>
