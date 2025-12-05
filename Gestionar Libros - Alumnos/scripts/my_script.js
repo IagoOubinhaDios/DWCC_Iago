@@ -117,9 +117,13 @@ function fillForm(libro) {
   $form["isbn"].disabled = true;
   $submit.dataset.id = libro.id;
   $submit.value = "Actualizar";
+
+  $libros.querySelectorAll("i").forEach(i=>i.classList.add("off"));
+
+  $libros.removeEventListener("click", procesaLibro);
 }
 
-$libros.addEventListener("click", (ev) => {
+function procesaLibro (ev) {
   let id = ev.target.dataset.id;
 
   if (id) {
@@ -128,12 +132,11 @@ $libros.addEventListener("click", (ev) => {
       fillForm(libro);
     } else {
       let indice = libros.findIndex((el) => el.id == id);
-      libros.splice(indice, 1);
+      libros.splice(indice, 1);add
+      renderLibros(libros);
     }
   }
-
-  renderLibros(libros);
-});
+}
 
 function checkTitulo(field) {
   let value = $form[field].value;
@@ -266,6 +269,7 @@ $form.addEventListener("submit", (ev) => {
       delete $submit.dataset.id; //Borrar atributo de un objeto
       renderLibros(libros);
       $form.reset();
+      $libros.addEventListener("click", procesaLibro);
     } else {
       alert("Error");
     }

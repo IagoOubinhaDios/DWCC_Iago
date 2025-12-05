@@ -1,0 +1,162 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6rem;
+  --color-fondo: #369;
+  --color-botones2: #c82333;
+  --ancho-menu: 150px;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  text-align: center;
+  color: var(--color-fondo);
+  display: inline-block;
+}
+
+/* Estilos de los iconos */
+.iconCarrito {
+  width: 30px;
+  fill: var(--color-fondo);
+}
+
+/* =============== Estilos de la cabecera =============*/
+header,
+footer {
+  width: 100vw;
+  padding: 1rem;
+  background-color: var(--color-fondo);
+  color: white;
+}
+
+/* =============== Estilos para imagenes libros =============*/
+figure {
+  width: auto;
+  height: auto;
+  max-width: 20vw;
+  max-height: 100%;
+  display: flex;
+  /*flex-flow: row nowrap;*/
+  justify-content: center;
+}
+
+figure img {
+  width: auto;
+  height: auto;
+  max-width: 100px;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  box-shadow: 3px 3px 5px black;
+}
+/* =============== Estilos del main =============*/
+main {
+  /* flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto; */
+  flex: 2 1 60%;
+  width: auto;
+  height: auto;
+  max-width: 60vw;
+  max-height: 100vh;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+}
+/* =============== Estilos del formulario =============*/
+form div,
+form p {
+  padding: 1rem;
+}
+
+.columnas {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  /* align-items: center; */
+  align-content: center;
+  gap: 1rem;
+}
+
+.libro {
+  width: 200px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-fondo);
+  border-radius: 5px;
+  padding: 0.25rem;
+}
+
+.seleccionado {
+  background-color: gray;
+}
+
+.botones {
+  justify-content: center;
+}
+
+p.linea {
+  display: inline-block;
+}
+
+p#total {
+  display: inline;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+input#resultado {
+  border: 1px solid var(--color-fondo);
+  padding: 0.25rem;
+  border-radius: 5px;
+  background-color: rgba(102, 176, 250, 0.331);
+}
+
+.boton {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  box-shadow: 3px 3px rgb(34, 40, 46);
+  border: 1px solid var(--color-fondo);
+  color: white;
+}
+
+input[type="reset"] {
+  background-color: var(--color-botones2);
+  border-color: var(--color-botones2);
+}
+
+input[type="submit"] {
+  background-color: var(--color-fondo);
+  border-color: var(--color-fondo);
+}
+
+/* =============== Estilos del pie =============*/
