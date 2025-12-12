@@ -1,4 +1,4 @@
-[
+{"productos":[
     {
         "precio": 500,
         "id": 1,
@@ -35,4 +35,5 @@
         "title": "Chela",
         "thumbnailUrl": "https://picsum.photos/id/50/600"
     }
-]
+],
+"carritos":[]}

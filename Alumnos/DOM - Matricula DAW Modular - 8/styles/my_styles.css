@@ -1,0 +1,233 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #00a8db8e;
+  --bg-primary-dark: #00a7db;
+  --bg-secundary: #96e4284e;
+  --bg-secundary-dark: #7cb827bb;
+  --color-resaltar: #fffc3d;
+  --bg-candelar: #FF662E;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font: 16px/1.5 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.boton {
+  background-color: var(--bg-primary);
+  text-align: center;
+  border-radius: 10px;
+  text-transform: uppercase;
+  border: 1px solid var(--bg-primary-dark);
+  box-shadow: 10px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  padding: .5rem 1.5rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: var(--color-resaltar);
+  border-color: var(--color-resaltar);
+}
+
+i:hover {
+  transform: scale(1.5);
+}
+
+/* cabecera */
+
+header {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  padding: 3rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* main */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+
+/*=============================================
+=            Estilos lista-datos            =
+=============================================*/
+
+#listado-datos, #acciones {
+  max-width: 90%;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 2%;
+  box-shadow: 11px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 11px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 11px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+h2 {
+  text-align: center;
+}
+
+/* section tabla-datos */
+#tabla-datos, #td-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr) minmax(auto, 100px);
+  grid-template-rows: auto;
+}
+
+#td-cabecera p {
+  background-color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.item p {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+}
+
+.item p:first-of-type {
+  border-right: 1px solid white;
+}
+
+.item p:nth-of-type(2) {
+  justify-content: center;
+}
+
+.item:nth-child(even) p {
+  background-color: var(--bg-secundary-dark);
+}
+
+.item:nth-child(odd) p {
+  background-color: var(--bg-secundary);
+}
+
+.fa-undo-alt {
+  color: green;
+}
+
+.fa-trash {
+  color: red;
+}
+
+i.off, a.off {
+  color: gray;
+}
+
+div.bt-acciones {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+
+/*=============================================
+=            Estilos del formulario            =
+=============================================*/
+
+
+/*formulario de actualización de datos */
+#form-acciones {
+  display: grid;
+  grid-template-columns: minmax(auto, 400px) minmax(auto, 250px);
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+
+#form-acciones p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem;
+}
+
+#form-acciones label {
+  font-size: 1.1rem;
+}
+
+#form-acciones p input.completo {
+  flex: 1;
+}
+
+input[type="text"] {
+  padding: .5rem;
+}
+
+input:focus {
+  background-color: wheat;
+}
+
+#form-acciones .full-row {
+  grid-column: span 2;
+  grid-row: span 2;
+  justify-self: center;
+}
+
+#form-acciones p.full-row {
+  max-width: 550px;
+  gap: 1rem;
+}
+
+/* .campo {
+  padding: 0.3rem;
+} */
+
+input[type=submit] {
+  font-size: 1rem;
+}
+
+input[type=button] {
+  font-size: 1rem;
+  background-color: var(--bg-candelar);
+  border-color: var(--bg-candelar);
+}
+
+i {
+  padding: 10px;
+}
+
+
+label:has(+input:checked) {
+  font-weight: bold;
+}
+
+.pie {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}

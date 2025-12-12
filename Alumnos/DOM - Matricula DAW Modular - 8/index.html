@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="styles/my_styles.css" />
+  <title>Matricula de DAW Modular</title>
+</head>
+
+<body>
+  <header>
+    <h1>Matrícula de DAW Modular</h1>
+  </header>
+  <main>
+    <div id="acciones">
+      <!-- span "inferior": Puede contener Actualizar o Añadir -->
+      <h2><span>Añadir</span> Datos de la Matricula</h2>
+      <form action="" id="form-acciones">
+        <p><label for="nombre">Nombre</label><input type="text" name="nombre" id="nombre" class="completo campo" />
+        </p>
+        <p><label for="nif">NIF</label> <input type="text" name="nif" id="nif" class="completo campo" /> </p>
+        <p class="full-row">
+          <!-- Checkboxes de modulos con formato, por ejemplo -->
+          <!-- <label for="BBDD">BBDD</label><input type="checkbox" id="BBDD" name="modulo" />  -->
+        </p>
+        <div class="pie full-row">
+          <input class="boton" type="submit" name="enviar" id="btn-enviar" value="Añadir Matricula" />
+          <input class="boton" type="button" name="cancelar" id="btn-cancelar" value="Cancelar" />
+        </div>
+      </form>
+    </div>
+
+    <div id="listado-datos">
+      <h2>Listado de Alumnos</h2>
+      <div id="body-datos">
+        <div id="tabla-datos">
+          <div class="item" id="td-cabecera">
+            <p>Nombre</p>
+            <p>NIF</p>
+            <p>Accion</p>
+          </div>
+          <div id="td-body"><!-- alumnos en formato template-item --></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <template id="template-item">
+    <div class="item">
+      <p><!-- Nombre --></p>
+      <div class="bt-acciones">
+        <i class="fas fa-undo-alt"></i>
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </div>
+    </div>
+  </template>
+</body>
+
+</html>

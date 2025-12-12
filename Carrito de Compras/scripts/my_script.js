@@ -43,13 +43,7 @@ const productos = [
       thumbnailUrl: "https://picsum.photos/id/50/600",
     }];
 
-const carrito = [
-    // {
-    //     id: 1,
-    //     productoId: 1,
-    //     cantidad: 0,
-    // }
-]
+const carrito = []
 
 function renderProductos(productos) {
   productos.forEach((producto) => {
