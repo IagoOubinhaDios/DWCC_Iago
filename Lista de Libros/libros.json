@@ -1,0 +1,10 @@
+{
+  "libros": [
+    {
+      "id": 1,
+      "autor": "Cervantes",
+      "titulo": "El Quijote",
+      "isbn": "No disponible"
+    }
+  ]
+}
