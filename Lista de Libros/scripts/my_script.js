@@ -8,15 +8,15 @@ $submit.value = "Añadir";
 const fields = [
   {
     field: "titulo",
-    checkFn: titulo,
+    checkFn: checkTitulo,
   },
   {
     field: "autor",
-    checkFn: autor,
+    checkFn: checkAutor,
   },
   {
     field: "isbn",
-    checkFn: isbn,
+    checkFn: checkIsbn,
   },
 ];
 
@@ -25,7 +25,7 @@ const libros = [
     id: 1,
     titulo: "El Quijote",
     autor: "Miguel de Cervantes",
-    isbn: "111119",
+    isbn: "11111119",
   },
 ];
 
