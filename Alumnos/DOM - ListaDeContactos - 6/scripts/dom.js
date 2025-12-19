@@ -111,7 +111,6 @@ function delContacto(id) {
       let indice = contactos.findIndex((contacto) => contacto.id == id);
       contactos.splice(indice, 1);
       renderContactos(contactos);
-      // location.reload();
     },
     fError: (error) => console.log(error),
   });
@@ -166,7 +165,6 @@ function addContacto(contacto) {
     fExito: (json) => {
       contactos.push(json);
       renderContactos(contactos);
-      // location.reload();
     },
     fError: (error) => console.log(error),
     data: contacto,
@@ -181,7 +179,6 @@ function updateContacto(id, contacto) {
       let indice = contactos.findIndex((contacto) => contacto.id == id);
       contactos.splice(indice, 1, json);
       renderContactos(contactos);
-      // location.reload();
     },
     fError: (error) => console.log(error),
     data: contacto,

@@ -5,6 +5,9 @@ const $d = document,
   $submit = $d.querySelector("input[type='submit']");
 $submit.value = "Añadir";
 
+const libros = [];
+const url = "http://localhost:3000";
+
 const fields = [
   {
     field: "titulo",
@@ -20,124 +23,6 @@ const fields = [
   },
 ];
 
-const libros = [
-  {
-    id: 1,
-    titulo: "El Quijote",
-    autor: "Miguel de Cervantes",
-    isbn: "11111119",
-  },
-];
-
-function renderLibros(libros) {
-  $libros.innerHTML = libros.reduce(
-    (anterior, actual) =>
-      anterior +
-      `<tr>
-        <td>${actual.titulo}</td>
-        <td>${actual.autor}</td>
-        <td>${actual.isbn}</td>
-        <td>
-          <i class="fa fa-check" aria-hidden="true" data-id="${actual.id}"></i>
-          <i class="fa fa-trash" aria-hidden="true" data-id="${actual.id}"></i>
-        </td>
-      </tr>`,
-    ""
-  );
-}
-
-function renderLibros2(libros) {
-  $libros.innerHTML = libros
-    .map(
-      (el) =>
-        `<tr>
-        <td>${el.titulo}</td>
-        <td>${el.autor}</td>
-        <td>${el.isbn}</td>
-        <td>
-          <i class="fa fa-check" aria-hidden="true" data-id="${el.id}"></i>
-          <i class="fa fa-trash" aria-hidden="true" data-id="${el.id}"></i>
-        </td>
-      </tr>`
-    )
-    .join("");
-}
-
-function renderLibros3(libros) {
-  const fragmento = $d.createDocumentFragment();
-
-  $libros.innerHTML = "";
-  libros.forEach((el) => {
-    const $clon = $tlibro.cloneNode(true);
-    const [$titulo, $autor, $isbn, $acciones] = $clon.querySelector("td");
-
-    $titulo.textContent = el.titulo;
-    $autor.textContent = el.autor;
-    $isbn.textContent = el.isbn;
-
-    $acciones.querySelectorAll("i").forEach((i) => (i.dataset.id = el.id));
-
-    fragmento.appendChild($clon);
-  });
-  $libros.appendChild(fragmento);
-}
-
-function renderLibros4(libros) {
-  const fragmento = $d.createDocumentFragment();
-
-  libros.forEach((libro) => {
-    const $tr = $d.createElement("tr");
-    const $titulo = $d.createElement("td");
-    const $autor = $d.createElement("td");
-    const $isbn = $d.createElement("td");
-    const $acciones = $d.createElement("td");
-
-    $titulo.textContent = libro.titulo;
-    $autor.textContent = libro.autor;
-    $isbn.textContent = libro.isbn;
-
-    const $i1 = $d.createElement("i");
-    $i1.classList.add("fa", "fa-check");
-    const $i2 = $d.createElement("i");
-    $i2.classList.add("fa", "fa-trash");
-    $i1.setAttribute("aria-hidden", "true");
-    $i1.dataset = libro.id;
-    $i2.dataset = libro.id;
-    $i2.setAttribute("aria-hidden", "true");
-    $acciones.append($i1, $i2);
-    $tr.append($titulo, $autor, $isbn, $acciones);
-
-    fragmento.appendChild($tr);
-  });
-  $libros.appendChild(fragmento);
-}
-
-function fillForm(libro) {
-  fields.forEach((el) => ($form[el.field].value = libro[el.field]));
-  $form["isbn"].disabled = true;
-  $submit.dataset.id = libro.id;
-  $submit.value = "Actualizar";
-
-  $libros.querySelectorAll("i").forEach(i=>i.classList.add("off"));
-
-  $libros.removeEventListener("click", procesaLibro);
-}
-
-function procesaLibro (ev) {
-  let id = ev.target.dataset.id;
-
-  if (id) {
-    if (ev.target.classList.contains("fa-check")) {
-      let libro = libros.find((el) => el.id == id);
-      fillForm(libro);
-    } else {
-      let indice = libros.findIndex((el) => el.id == id);
-      libros.splice(indice, 1);add
-      renderLibros(libros);
-    }
-  }
-}
-
 function checkTitulo(field) {
   let value = $form[field].value;
   let resultado = null;
@@ -146,13 +31,6 @@ function checkTitulo(field) {
       field,
       status: false,
       statusText: "El campo está vacío",
-    };
-  }
-  if (value.length < 8) {
-    resultado = {
-      field,
-      status: false,
-      statusText: "El campo debe medir más de 8 caracteres",
     };
   }
   if (!resultado) {
@@ -171,13 +49,6 @@ function checkAutor(field) {
       statusText: "El campo está vacío",
     };
   }
-  if (value.length < 8) {
-    resultado = {
-      field,
-      status: false,
-      statusText: "El campo debe medir más de 8 caracteres",
-    };
-  }
   if (!resultado) {
     resultado = { field, status: true, statusText: "El campo es correcto" };
   }
@@ -192,13 +63,6 @@ function checkIsbn(field) {
       field,
       status: false,
       statusText: "El campo está vacío",
-    };
-  }
-  if (value != "" && value.length < 8) {
-    resultado = {
-      field,
-      status: false,
-      statusText: "El campo debe medir más de 8 caracteres",
     };
   }
   let exprReg = /^\d{8,}$/gi;
@@ -218,18 +82,6 @@ function checkIsbn(field) {
 const checkForm = (libro, add = false) => {
   if (add) {
     const statusErrors = fields.map((el) => el.checkFn(el.field));
-    // const statusErrors = fields.reduce((anterior, actual) => {
-    //   let status = actual.checkFn($form[actual.field]);
-    //   let statusText = status
-    //     ? "El campo es correcto"
-    //     : "El campo es debe rellenarse";
-    //   anterior.push({
-    //     field: actual.field,
-    //     status,
-    //     statusText,
-    //   });
-    //   return anterior;
-    // }, []);
     if (statusErrors.filter((el) => !el.status).length) {
       return false;
     }
@@ -248,6 +100,102 @@ const checkForm = (libro, add = false) => {
   }
 };
 
+function ajax(options) {
+  const { url, method, fExito, fError, data } = options;
+
+  fetch(url, {
+    method: method || "GET",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((resp) => (resp.ok ? resp.json() : Promise.reject(resp)))
+    .then((json) => fExito(json))
+    .catch((error) => {
+      fError({
+        status: error.status,
+        statusText: error.statusText || "Ocurrió un error",
+      });
+    });
+}
+
+function fillForm(libro) {
+  fields.forEach((el) => ($form[el.field].value = libro[el.field]));
+  $form["isbn"].disabled = true;
+  $submit.dataset.id = libro.id;
+  $submit.value = "Actualizar";
+
+  $libros.querySelectorAll("i").forEach((i) => i.classList.add("off"));
+
+  $libros.removeEventListener("click", procesaLibro);
+}
+
+function delLibro(id) {
+  ajax({
+    url: `${url}/libros/${id}`,
+    method: "DELETE",
+    fExito: (json) => {
+      let indice = libros.findIndex((el) => el.id == id);
+      libros.splice(indice, 1);
+      renderLibros(libros);
+    },
+    fError: (error) => console.log(error),
+  });
+}
+
+function procesaLibro(ev) {
+  let id = ev.target.dataset.id;
+
+  if (id) {
+    if (ev.target.classList.contains("fa-check")) {
+      fillForm();
+    } else {
+      delLibro(id);
+    }
+  }
+}
+
+function addLibro(data) {
+  ajax({
+    url: `${url}/libros`,
+    method: "POST",
+    fExito: (json) => {
+      libros.push(json);
+      renderLibros(libros);
+    },
+    fError: (error) => console.log(error),
+    data: {
+      id: data.id,
+      autor: data.autor,
+      titulo: data.titulo,
+      isbn: data.isbn,
+    },
+  });
+}
+
+function modLibro(data) {
+  ajax({
+    url: `${url}/libros/${data.id}`,
+    method: "PATCH",
+    fExito: (json) => {
+      let indice = json.findIndex((el) => el.id == data.id);
+      libros.splice(indice, 1, json);
+      $submit.value = "Añadir";
+      $form["isbn"].disabled = false;
+      delete $submit.dataset.id;
+      renderLibros(libros);
+    },
+    fError: (error) => console.log(error),
+    data: {
+      id: data.id,
+      autor: data.autor,
+      titulo: data.titulo,
+      isbn: data.isbn,
+    },
+  });
+}
+
 $form.addEventListener("submit", (ev) => {
   ev.preventDefault();
 
@@ -261,13 +209,7 @@ $form.addEventListener("submit", (ev) => {
     let libro = libros.find((libro) => libro.id == id);
     libro = { id: libro, ...libroActual };
     if (checkForm(libro, false)) {
-      let indice = libros.findIndex((libro) => libro.id == id);
-      libros.splice(indice, 1);
-      libros.push(libro);
-      $submit.value = "Añadir";
-      $form["isbn"].disabled = false;
-      delete $submit.dataset.id; //Borrar atributo de un objeto
-      renderLibros(libros);
+      modLibro(libro);
       $form.reset();
       $libros.addEventListener("click", procesaLibro);
     } else {
@@ -280,8 +222,7 @@ $form.addEventListener("submit", (ev) => {
     }, {});
     libro.id = Math.max(...libros.map((libro) => libro.id)) + 1; //Obtener id más alto
     if (checkForm(libro)) {
-      libros.push(libro);
-      renderLibros(libros);
+      addLibro(libro);
       $form.reset();
     } else {
       alert("Error");
@@ -289,6 +230,36 @@ $form.addEventListener("submit", (ev) => {
   }
 });
 
+function renderLibros(libros) {
+  sessionStorage.setItem("libros", JSON.stringify(libros));
+  $libros.innerHTML = libros.reduce(
+    (anterior, actual) =>
+      anterior +
+      `<tr>
+        <td>${actual.titulo}</td>
+        <td>${actual.autor}</td>
+        <td>${actual.isbn}</td>
+        <td>
+          <i class="fa fa-check" aria-hidden="true" data-id="${actual.id}"></i>
+          <i class="fa fa-trash" aria-hidden="true" data-id="${actual.id}"></i>
+        </td>
+      </tr>`,
+    ""
+  );
+}
+
+function getLibros(url) {
+  ajax({
+    url: `${url}/libros`,
+    method: "GET",
+    fExito: (json) => {
+      libros.splice(0, libros.length, ...json);
+      renderLibros(json);
+    },
+    fError: (error) => console.log(error),
+  });
+}
+
 $d.addEventListener("DOMContentLoaded", (ev) => {
-  renderLibros(libros);
+  getLibros(url);
 });

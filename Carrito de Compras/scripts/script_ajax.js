@@ -18,7 +18,6 @@ async function ajax(options) {
   });
 
   if (!resp.ok) {
-    // throw new Error()
     throw {
       status: resp.status,
       statusText: resp.statusText || "Ocurrió un error",
@@ -61,7 +60,7 @@ $productos.addEventListener("click", async ev => {
 
 async function addCantidad(id) {
   let cantidad = ++carrito.find((el) => el.id == id).cantidad;
-  const productoCarrito = await ajax({
+  await ajax({
     url: `${url}/carritos/${id}`,
     method: "PATCH",
     data: { cantidad }
@@ -186,5 +185,4 @@ $d.addEventListener("DOMContentLoaded", (ev) => {
     .catch((errors) => {
       console.log(errors);
     });
-  // getProductos(`${url}/productos`);
 });
