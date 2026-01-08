@@ -222,7 +222,7 @@ const checkForm = (libro, add = false) => {
     //   let status = actual.checkFn($form[actual.field]);
     //   let statusText = status
     //     ? "El campo es correcto"
-    //     : "El campo es debe rellenarse";
+    //     : "El campo debe rellenarse";
     //   anterior.push({
     //     field: actual.field,
     //     status,

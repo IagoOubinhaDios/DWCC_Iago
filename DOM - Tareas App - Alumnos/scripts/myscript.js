@@ -20,6 +20,7 @@ function renderTareas(tareas) {
         ``
       )
     : `<p class="alert alert-dark text-center">Sin tareas pendientes &#10084;</p>`;
+    console.log(tareas);
 }
 
 $formulario.addEventListener("submit", (ev) => {

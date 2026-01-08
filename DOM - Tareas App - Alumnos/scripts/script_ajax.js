@@ -2,7 +2,29 @@ const $d = document,
   $formulario = $d.querySelector("#formulario"),
   $itemsTareas = $d.querySelector("#tareas"),
   $submit = $formulario.querySelector("button");
+
+const url = "http://localhost:3000";
 const tareas = [];
+
+function ajax(options) {
+  const { url, method, fExito, fError, data } = options;
+
+  fetch(url, {
+    method: method || "GET",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((resp) => (resp.ok ? resp.json() : Promise.reject(resp)))
+    .then((json) => fExito(json))
+    .catch((error) => {
+      fError({
+        status: error.status,
+        statusText: error.statusText || "Ocurrió un error",
+      });
+    });
+}
 
 $formulario.addEventListener("submit", (ev) => {
   ev.preventDefault();
@@ -83,6 +105,18 @@ function renderTareas(tareas) {
     : `<p class="alert alert-dark text-center">Sin tareas pendientes &#10084;</p>`;
 }
 
+function getTareas() {
+  ajax({
+    url: `${url}/tareas`,
+    method: "GET",
+    fExito: (json) => {
+      tareas.splice(0, contactos.length, ...json);
+      renderTareas(json);
+    },
+    fError: (error) => console.log(error),
+  });
+}
+
 $d.addEventListener("DOMContentLoaded", (ev) => {
-  renderTareas(tareas);
+  getTareas();
 });

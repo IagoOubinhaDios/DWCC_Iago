@@ -259,7 +259,6 @@ function getContactos(contactosUrl) {
     method: "GET",
     fExito: (json) => {
       contactos.splice(0, contactos.length, ...json);
-      sessionStorage.setItem("contactos", JSON.stringify(contactos));
       renderContactos(json);
     },
     fError: (error) => console.log(error),
