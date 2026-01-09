@@ -12,7 +12,8 @@
             :"text-white bg-danger"
             }">${conditions.find(condition=>condition-id==product.conditionId).name}</td>
         <td>
-            
+            <i title "Actualizar" class="fa-solid me-2 text-warning fa-pen"></i>
+            <i title "Eliminar" class="fa-solid text-danger fa-trash"></i>
         </td>
     </tr> */
 

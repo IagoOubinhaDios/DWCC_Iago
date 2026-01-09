@@ -26,25 +26,67 @@ function ajax(options) {
     });
 }
 
+function addTarea(tareaNueva){
+  ajax({
+    url: `${url}/tareas`,
+    method: 'POST',
+    fExito: (json) => {
+      tareas.push(json);
+      renderTareas(tareas);
+    },
+    fError: (error) => console.log(error),
+    data: {
+      tarea: tareaNueva
+    }
+  });
+}
+
+function modTarea(idTarea, tareaModificada){
+  ajax({
+    url: `${url}/tareas/${idTarea}`,
+    method: 'PATCH',
+    fExito: (json) => {
+      let indice = tareas.findIndex((tarea) => tarea.id == idTarea);
+      tareas.splice(indice, 1, json);
+      $submit.textContent = "Agregar";
+      delete $submit.dataset.tareaId;
+      $itemsTareas.addEventListener("click", procressTarea);
+      renderTareas(tareas);
+    },
+    fError: (error) => console.log(error),
+    data: {
+      tarea: tareaModificada
+    }
+  });
+}
+
+function delTarea(id){
+  ajax({
+    url: `${url}/tareas/${id}`,
+    method: 'DELETE',
+    fExito: (json) => {
+      let indice = tareas.findIndex((tarea) => tarea.id == id);
+      tareas.splice(indice, 1);
+      renderTareas(tareas);
+    },
+    fError: (error) => console.log(error)
+  });
+}
+
 $formulario.addEventListener("submit", (ev) => {
   ev.preventDefault();
 
-  let tareaNueva = $formulario.input.value;
-  if (tareaNueva) {
+  let tarea = $formulario.input.value;
+  if (tarea) {
     let id = $submit.dataset.tareaId;
     if (id) {
       // Modificar
-      let tarea = tareas.find((tarea) => tarea.id == id);
-      tarea.tarea = tareaNueva;
-      $submit.textContent = "Añadir";
-      delete $submit.dataset.tareaId;
-      $itemsTareas.addEventListener("click", procressTarea);
+      modTarea(id, tarea);
     } else {
       // Añadir
-      tareas.push({ id: Date.now(), tarea: tareaNueva, estado: true });
+      addTarea(tarea);
     }
     $formulario.input.value = "";
-    renderTareas(tareas);
   } else {
     alert("Escribe el nombre de la tarea");
   }
@@ -58,26 +100,14 @@ function procressTarea(ev) {
   if (id) {
     if (ev.target.classList.contains("text-danger")) {
       // Borrar
-      let index = tareas.indexOf((tarea) => tarea.id == id);
-      tareas.splice(index, 1);
-      renderTareas(tareas);
+      delTarea(id);
     } else {
       // Actualizar
-      // const $p = ev.target.parentElement.previousElementSibling;
-      // if ($p.style.textDecoration == "line-through") {
-      //   $p.style.textDecoration='';
-      // } else {
-      //   $p.style = "text-decoration:line-through";
-      //   tareas[id].estado = !tareas[id].estado;
-      //   renderTareas(tareas);
-      // }
       let tarea = tareas.find((tarea) => tarea.id == id);
-      // tarea.estado = false;
       $formulario.input.value = tarea.tarea;
       $submit.textContent = "Modificar";
       $submit.dataset.tareaId = id;
       $itemsTareas.removeEventListener("click", procressTarea);
-      renderTareas(tareas);
     }
   }
 }
@@ -110,7 +140,7 @@ function getTareas() {
     url: `${url}/tareas`,
     method: "GET",
     fExito: (json) => {
-      tareas.splice(0, contactos.length, ...json);
+      tareas.splice(0, tareas.length, ...json);
       renderTareas(json);
     },
     fError: (error) => console.log(error),
