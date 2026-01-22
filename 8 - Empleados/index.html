@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/my_styles.css" />
+    <script src="./scripts/my_script.js" defer></script>
+    <title>Empleados</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Gestión de empleados</h1>
+    </header>
+    <main class="container">
+      <!-- Si añadimos la clase hidden oculta la seccion -->
+      <section class="formulario">
+        <h2>Formulario de alta</h2>
+        <form
+          id="formularioEmpleado"
+          action="#"
+          method="#"
+          enctype="multipart/form-data"
+          autocomplete="off"
+        >
+          <fieldset>
+            <legend>Datos personales</legend>
+            <p class="campo">
+              <label class="form-label" for="nif">NIF/NIE</label>
+              <input
+                type="text"
+                name="nif"
+                id="nif"
+                class="form-control"
+                placeholder="55644321F"
+                required
+              />
+            </p>
+            <p class="campo">
+              <label class="form-label" for="name">Nombre</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="form-control"
+                placeholder="Ana María Pérez Prado"
+                required
+              />
+            </p>
+            <p class="campo">
+              <label class="form-label" for="bornDate">Fecha nacimiento</label>
+              <input
+                type="date"
+                name="bornDate"
+                id="bornDate"
+                max="2007-01-01"
+                class="form-control"
+              />
+            </p>
+            <p class="campo">
+              <label class="form-label">Foto del empleado</label>
+              <input
+                type="text"
+                name="avatar"
+                id="avatar"
+                class="form-control"
+                placeholder="img/foto.png"
+              />
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Datos profesionales</legend>
+            <p class="campo">
+              <label for="date-contract">Fecha inicio contrato</label>
+              <input
+                type="date"
+                name="contractDate"
+                id="contractDate"
+                class="form-control"
+                required
+              />
+            </p>
+            <p class="campo">
+              <label class="form-label">Puesto</label>
+              <select name="positionId" class="form-control" required>
+                <!-- Añadimos las opciones leyendolas del json -->
+                <!-- 
+                <option selected value="">Seleccione</option>
+                <option value="0">Gerente</option>
+                <option value="1">Asistente</option>
+                <option value="2">Analista</option>
+                <option value="3">Programador</option>
+                <option value="4">Diseñador</option>
+                <option value="5">Técnico</option>
+                <option value="6">Desarrollador Web</option> 
+                -->
+              </select>
+            </p>
+            <p class="campo">
+              <label for="salary">Sueldo Base</label>
+              <input
+                type="number"
+                name="salary"
+                id="salary"
+                class="form-control"
+                value="800"
+                required
+              />
+            </p>
+          </fieldset>
+          <p class="botones">
+            <button type="submit" class="btn btn-add">Añadir</button>
+            <button type="reset" class="btn btn-reset">Cancelar</button>
+          </p>
+        </form>
+      </section>
+
+      <!-- La clase hidden oculta la seccion -->
+      <section class="listado hidden">
+        <header>
+          <a href="#" class="btn btn-success" title="Registrar Nuevo Empleado">
+            <img
+              src="./assets/imgs/icons/user-plus.svg"
+              alt="Añadir empleado"
+              id="addEmployee"
+          /></a>
+          <h2>Lista de empleados (<!-- totalEmpleados -->)</h2>
+          <p>
+            <label class="form-label" for="searchName">Nombre</label>
+            <input
+              type="text"
+              name="searchName"
+              id="searchName"
+              class="form-control"
+              placeholder="Ana María Pérez Prado"
+              required
+            />
+          </p>
+        </header>
+        <div class="linea"></div>
+        <table class="table table-hover" id="table_empleados">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Edad</th>
+              <th scope="col">DNI</th>
+              <th scope="col">Puesto</th>
+              <th scope="col">Avatar</th>
+              <th scope="col">Sueldo</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Lista de empleados: template-empleado-item -->
+            <!--           
+            <tr>
+              <th scope="row">1</th>
+              <td>Ana Pérez Pérez</td>
+              <td>32</td>
+              <td>55644321F</td>
+              <td>Programador senio</td>
+              <td class="avatar">
+                <figure>
+                  <img class="avatar-img" src="./assets/imgs/fotos_empleados/01cd6f93cc.png" alt="">
+                </figure>
+              </td>
+              <td>2800 €</td>
+              <td class="acciones">
+                <a title="Editar datos del empleado" href="#" class="btn btn-warning">
+                  <img src="./assets/imgs/icons/pencil.svg" alt=""> </a>
+                <a title="Eliminar datos del empleado" href="#" class="btn btn-danger">
+                  <img src="./assets/imgs/icons/trash-can.svg" alt="">
+                </a>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+      <p>2025 &copy; Marina Vega Vázquez</p>
+    </footer>
+
+    <template id="template-empleado-item">
+      <tr>
+        <th scope="row"><!-- Número de empleado --></th>
+        <td><!-- name --></td>
+        <td><!-- edad --></td>
+        <td><!-- nif --></td>
+        <td><!-- ppsition --></td>
+        <td class="avatar">
+          <figure>
+            <img
+              class="avatar-img"
+              src="./assets/imgs/fotos_empleados/01cd6f93cc.png"
+              alt=""
+            />
+          </figure>
+        </td>
+        <td>
+          <!-- sueldo con trienios -->
+          €
+        </td>
+        <td class="acciones">
+          <a title="Editar datos del empleado" href="#" class="btn btn-warning">
+            <img src="./assets/imgs/icons/pencil.svg" alt="" />
+          </a>
+          <a
+            title="Eliminar datos del empleado"
+            href="#"
+            class="btn btn-danger"
+          >
+            <img src="./assets/imgs/icons/trash-can.svg" alt="" />
+          </a>
+        </td>
+      </tr>
+    </template>
+  </body>
+</html>

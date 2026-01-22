@@ -120,15 +120,19 @@ function ajax(options) {
     });
 }
 
-function fillForm(libro) {
-  fields.forEach((el) => ($form[el.field].value = libro[el.field]));
-  $form["isbn"].disabled = true;
-  $submit.dataset.id = libro.id;
-  $submit.value = "Actualizar";
+function fillForm(id) {
+  let libro = libros.find((libro) => libro.id == id);
 
-  $libros.querySelectorAll("i").forEach((i) => i.classList.add("off"));
+  if (libro) {
+    fields.forEach((el) => ($form[el.field].value = libro[el.field]));
+    $form["isbn"].disabled = true;
+    $submit.dataset.id = libro.id;
+    $submit.value = "Actualizar";
 
-  $libros.removeEventListener("click", procesaLibro);
+    $libros.querySelectorAll("i").forEach((i) => i.classList.add("off"));
+
+    $libros.removeEventListener("click", procesaLibro);
+  }
 }
 
 function delLibro(id) {
@@ -149,12 +153,14 @@ function procesaLibro(ev) {
 
   if (id) {
     if (ev.target.classList.contains("fa-check")) {
-      fillForm();
+      fillForm(id);
     } else {
       delLibro(id);
     }
   }
 }
+
+$libros.addEventListener("click", procesaLibro);
 
 function addLibro(data) {
   ajax({
@@ -162,11 +168,11 @@ function addLibro(data) {
     method: "POST",
     fExito: (json) => {
       libros.push(json);
+      $form.reset();
       renderLibros(libros);
     },
     fError: (error) => console.log(error),
     data: {
-      id: data.id,
       autor: data.autor,
       titulo: data.titulo,
       isbn: data.isbn,
@@ -174,21 +180,22 @@ function addLibro(data) {
   });
 }
 
-function modLibro(data) {
+function modLibro(id, data) {
   ajax({
-    url: `${url}/libros/${data.id}`,
-    method: "PATCH",
+    url: `${url}/libros/${id}`,
+    method: "PUT",
     fExito: (json) => {
-      let indice = json.findIndex((el) => el.id == data.id);
+      let indice = json.findIndex((el) => el.id == id);
       libros.splice(indice, 1, json);
       $submit.value = "Añadir";
       $form["isbn"].disabled = false;
       delete $submit.dataset.id;
+      $form.reset();
+      $libros.addEventListener("click", procesaLibro);
       renderLibros(libros);
     },
     fError: (error) => console.log(error),
     data: {
-      id: data.id,
       autor: data.autor,
       titulo: data.titulo,
       isbn: data.isbn,
@@ -199,31 +206,23 @@ function modLibro(data) {
 $form.addEventListener("submit", (ev) => {
   ev.preventDefault();
 
-  let id = $submit.dataset.id;
+  let libro = fields.reduce((anterior, actual) => {
+    anterior[actual.field] = $form[actual.field].value;
+    return anterior;
+  }, {});
 
+  let id = $submit.dataset.id;
   if (id) {
-    let libroActual = fields.reduce((anterior, actual) => {
-      anterior[actual.field] = $form[actual.field].value;
-      return anterior;
-    }, {});
     let libro = libros.find((libro) => libro.id == id);
-    libro = { id: libro, ...libroActual };
+    libro = { ...libroActual };
     if (checkForm(libro, false)) {
-      modLibro(libro);
-      $form.reset();
-      $libros.addEventListener("click", procesaLibro);
+      modLibro(id, libro);
     } else {
       alert("Error");
     }
   } else {
-    let libro = fields.reduce((anterior, actual) => {
-      anterior[actual.field] = $form[actual.field].value;
-      return anterior;
-    }, {});
-    libro.id = Math.max(...libros.map((libro) => libro.id)) + 1; //Obtener id más alto
     if (checkForm(libro)) {
       addLibro(libro);
-      $form.reset();
     } else {
       alert("Error");
     }

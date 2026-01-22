@@ -50,20 +50,113 @@ async function ajax({ url, method, data, headers = {} }) {
   }
 }
 
+async function delProducto(id) {
+  const resp = await ajax({
+    url: `${url}/products/${id}`,
+    method: "DELETE",
+  });
+
+  if (resp.ok) {
+    let indice = productos.findIndex((el) => el.id == id);
+    productos.splice(indice, 1);
+    renderProductos(productos, categorias, condiciones);
+  } else {
+    alert(`Error al borrar: ${resp.statusText}`);
+  }
+}
+
+function fillForm(id) {
+  let producto = productos.find((el) => el.id == id);
+  if (producto) {
+    $nombre.value = producto.name;
+    $precio.value = producto.price;
+    modificarSelected($categorias, producto.categoryId);
+    modificarSelected($condiciones, producto.conditionId);
+    $productos.removeEventListener("click", procesarAcciones);
+    $btnAdd.textContent = "Modificar Producto";
+  }
+}
+
+async function procesarAcciones(ev){
+  let id = ev.target.dataset.id;
+
+  if (id){
+    if(ev.target.classList.contains("fa-trash")){
+      await delProducto(id);
+    } else {
+      fillForm(id);
+    }
+  }
+}
+
+$productos.addEventListener("click", procesarAcciones)
+
+function modificarSelected($opciones, value){
+  let opciones = $opciones.querySelectorAll("option");
+
+  opciones.forEach((opt) => {
+    opt.removeAttribute("selected");
+  });
+
+  opciones.forEach((opt) => {
+    if(opt.value == value) {
+      opt.setAttribute("selected", "");
+    }
+  });
+}
+
+$categorias.addEventListener("click", (ev) => {
+  ev.preventDefault();
+
+  modificarSelected($categorias, ev.target.value);
+});
+
+$condiciones.addEventListener("click", (ev) => {
+  ev.preventDefault();
+
+  modificarSelected($condiciones, ev.target.value);
+});
+
 async function addProducto(nombre, precio, idCategoria, idCondicion) {
   const resp = await ajax({
-    url: `${url}/productos`,
+    url: `${url}/products`,
     method: "POST",
     data: {
       name: nombre,
       price: precio,
       categoryId: idCategoria,
-      conditionId: idCondicion
+      conditionId: idCondicion,
     },
   });
+
   if (resp.ok) {
     productos.push(resp.data);
     renderProductos(productos, categorias, condiciones);
+    $nombre.value = "";
+    $precio.value = "";
+  } else {
+    alert(`Error al añadir: ${resp.statusText}`);
+  }
+}
+
+async function modProducto(nombre, precio, idCategoria, idCondicion) {
+  const resp = await ajax({
+    url: `${url}/products`,
+    method: "PUT",
+    data: {
+      name: nombre,
+      price: precio,
+      categoryId: idCategoria,
+      conditionId: idCondicion,
+    },
+  });
+
+  if (resp.ok) {
+    let indice = productos.findIndex((prod) => prod.id == id);
+    productos.push(resp.data);
+    renderProductos(productos, categorias, condiciones);
+    $nombre.value = "";
+    $precio.value = "";
   } else {
     alert(`Error al añadir: ${resp.statusText}`);
   }
@@ -73,11 +166,29 @@ $btnAdd.addEventListener("click", async (ev) => {
   let producto = productos.find((pro) => pro.name == $nombre.textContent);
 
   if (!producto) {
-    // await addProducto($nombre.textContent, $precio.textContent, $categorias, $condiciones);
+    let idCategoria = -1;
+    let idCondicion = -1;
+    $categorias.querySelectorAll("option").forEach((cat) => {
+      if(cat.getAttribute("selected") != null){
+        idCategoria = cat.value;
+      }
+    });
+    $condiciones.querySelectorAll("option").forEach((con) => {
+      if(con.getAttribute("selected") != null){
+        idCondicion = con.value;
+      }
+    });
+    if (idCategoria != -1 && idCondicion != -1){
+      $btnAdd.textContent == "Añadir Producto" 
+      ? await addProducto($nombre.value, $precio.value, idCategoria, idCondicion)
+      : await modProducto($nombre.value, $precio.value, idCategoria, idCondicion);
+    }
   }
 });
 
 $btnLimpiar.addEventListener("click", (ev) => {
+  $nombre.value = "";
+  $precio.value = "";
 });
 
 function renderProductos(productos, categorias, condiciones) {
@@ -119,7 +230,10 @@ function renderProductos(productos, categorias, condiciones) {
 function renderCategorias(categorias) {
   $categorias.innerHTML = categorias.reduce(
     (anterior, actual) =>
-      anterior + `<option value="${actual.id}">${actual.name}</option>`,
+      anterior +
+      `<option value="${actual.id}" ${actual.id == 1 ? `selected` : ``}>${
+        actual.name
+      }</option>`,
     ""
   );
 }
@@ -134,7 +248,7 @@ function renderCondiciones(condiciones) {
           : actual.name == "Bueno"
           ? "bg-warning text-white"
           : "bg-danger text-white"
-      } value="${actual.id}">
+      } value="${actual.id}" ${actual.id == 1 ? `selected` : ``}>
         ${actual.name}
     </option>`,
     ""
