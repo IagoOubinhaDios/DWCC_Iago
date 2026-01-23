@@ -10,7 +10,8 @@ const $d = document,
   $nombre = $d.querySelector("#name"),
   $precio = $d.querySelector("#price"),
   $btnAdd = $d.querySelector("#btnAdd"),
-  $btnLimpiar = $d.querySelector("#btnClear");
+  $btnLimpiar = $d.querySelector("#btnClear"),
+  $filtrarNombre = $d.querySelector("#search");
 
 async function ajax({ url, method, data, headers = {} }) {
   try {
@@ -73,15 +74,16 @@ function fillForm(id) {
     modificarSelected($categorias, producto.categoryId);
     modificarSelected($condiciones, producto.conditionId);
     $productos.removeEventListener("click", procesarAcciones);
-    $btnAdd.textContent = "Modificar Producto";
+    $btnAdd.textContent = "Actualizar Producto";
+    $btnAdd.dataset.id = id;
   }
 }
 
-async function procesarAcciones(ev){
+async function procesarAcciones(ev) {
   let id = ev.target.dataset.id;
 
-  if (id){
-    if(ev.target.classList.contains("fa-trash")){
+  if (id) {
+    if (ev.target.classList.contains("fa-trash")) {
       await delProducto(id);
     } else {
       fillForm(id);
@@ -89,9 +91,9 @@ async function procesarAcciones(ev){
   }
 }
 
-$productos.addEventListener("click", procesarAcciones)
+$productos.addEventListener("click", procesarAcciones);
 
-function modificarSelected($opciones, value){
+function modificarSelected($opciones, value) {
   let opciones = $opciones.querySelectorAll("option");
 
   opciones.forEach((opt) => {
@@ -99,7 +101,7 @@ function modificarSelected($opciones, value){
   });
 
   opciones.forEach((opt) => {
-    if(opt.value == value) {
+    if (opt.value == value) {
       opt.setAttribute("selected", "");
     }
   });
@@ -132,16 +134,14 @@ async function addProducto(nombre, precio, idCategoria, idCondicion) {
   if (resp.ok) {
     productos.push(resp.data);
     renderProductos(productos, categorias, condiciones);
-    $nombre.value = "";
-    $precio.value = "";
   } else {
     alert(`Error al añadir: ${resp.statusText}`);
   }
 }
 
-async function modProducto(nombre, precio, idCategoria, idCondicion) {
+async function modProducto(id, nombre, precio, idCategoria, idCondicion) {
   const resp = await ajax({
-    url: `${url}/products`,
+    url: `${url}/products/${id}`,
     method: "PUT",
     data: {
       name: nombre,
@@ -152,36 +152,44 @@ async function modProducto(nombre, precio, idCategoria, idCondicion) {
   });
 
   if (resp.ok) {
-    let indice = productos.findIndex((prod) => prod.id == id);
-    productos.push(resp.data);
-    renderProductos(productos, categorias, condiciones);
+    let indice = productos.findIndex((pro) => pro.id == id);
+    productos.splice(indice, 1, resp.data);
     $nombre.value = "";
     $precio.value = "";
+    $productos.addEventListener("click", procesarAcciones);
+    $btnAdd.textContent = "Añadir Producto";
+    renderProductos(productos, categorias, condiciones);
+    delete $btnAdd.dataset.id;
   } else {
     alert(`Error al añadir: ${resp.statusText}`);
   }
 }
 
 $btnAdd.addEventListener("click", async (ev) => {
-  let producto = productos.find((pro) => pro.name == $nombre.textContent);
+  let idCategoria = -1;
+  let idCondicion = -1;
+  $categorias.querySelectorAll("option").forEach((cat) => {
+    if (cat.getAttribute("selected") != null) {
+      idCategoria = cat.value;
+    }
+  });
+  $condiciones.querySelectorAll("option").forEach((con) => {
+    if (con.getAttribute("selected") != null) {
+      idCondicion = con.value;
+    }
+  });
 
-  if (!producto) {
-    let idCategoria = -1;
-    let idCondicion = -1;
-    $categorias.querySelectorAll("option").forEach((cat) => {
-      if(cat.getAttribute("selected") != null){
-        idCategoria = cat.value;
-      }
-    });
-    $condiciones.querySelectorAll("option").forEach((con) => {
-      if(con.getAttribute("selected") != null){
-        idCondicion = con.value;
-      }
-    });
-    if (idCategoria != -1 && idCondicion != -1){
-      $btnAdd.textContent == "Añadir Producto" 
-      ? await addProducto($nombre.value, $precio.value, idCategoria, idCondicion)
-      : await modProducto($nombre.value, $precio.value, idCategoria, idCondicion);
+  if (idCategoria != -1 && idCondicion != -1) {
+    if ($btnAdd.textContent.match("Añadir")) {
+      await addProducto($nombre.value, $precio.value, idCategoria, idCondicion);
+    } else {
+      await modProducto(
+        ev.target.dataset.id,
+        $nombre.value,
+        $precio.value,
+        idCategoria,
+        idCondicion
+      );
     }
   }
 });
@@ -191,40 +199,63 @@ $btnLimpiar.addEventListener("click", (ev) => {
   $precio.value = "";
 });
 
-function renderProductos(productos, categorias, condiciones) {
-  $productos.innerHTML = productos.reduce(
-    (anterior, actual, i) =>
-      anterior +
-      `<tr>
-        <td>${i + 1}</td>
-        <td>${actual.name}</td>
-        <td>${actual.price}</td>
-        <td>${
-          categorias.find((categoria) => categoria.id == actual.categoryId).name
-        }</td>
-        <td class="${
-          condiciones.find((condicion) => condicion.id == actual.conditionId)
-            .name == "Excelente"
-            ? "text-white bg-success"
-            : condiciones.find(
-                (condicion) => condicion.id == actual.conditionId
-              ).name == "Bueno"
-            ? "text-white bg-warning"
-            : "text-white bg-danger"
-        }">${
-        condiciones.find((condicion) => condicion.id == actual.conditionId).name
-      }</td>
-        <td>
-            <i title "Actualizar" class="fa-solid me-2 text-warning fa-pen" data-id="${
-              actual.id
-            }"></i>
-            <i title "Eliminar" class="fa-solid text-danger fa-trash" data-id="${
-              actual.id
-            }"></i>
-        </td>
-    </tr>`,
-    ""
+$filtrarNombre.addEventListener("keyup", (ev) => {
+  const productosFiltrados = productos.filter((pro) =>
+    pro.name.toLowerCase().includes(ev.target.value.toLowerCase())
   );
+  renderProductos(productosFiltrados, categorias, condiciones);
+});
+
+function renderProductos(productos, categorias, condiciones) {
+  $productos.innerHTML = productos.length
+    ? productos.reduce(
+        (anterior, actual, i) =>
+          anterior +
+          `<tr>
+            <td>${i + 1}</td>
+            <td>${actual.name}</td>
+            <td>${actual.price}</td>
+            <td>${
+              categorias.find((categoria) => categoria.id == actual.categoryId)
+                .name
+            }</td>
+            <td class="${
+              condiciones.find(
+                (condicion) => condicion.id == actual.conditionId
+              ).name == "Excelente"
+                ? "text-white bg-success"
+                : condiciones.find(
+                    (condicion) => condicion.id == actual.conditionId
+                  ).name == "Bueno"
+                ? "text-white bg-warning"
+                : "text-white bg-danger"
+            }">${
+            condiciones.find((condicion) => condicion.id == actual.conditionId)
+              .name
+          }</td>
+            <td>
+                <i title "Actualizar" class="fa-solid me-2 text-warning fa-pen" data-id="${
+                  actual.id
+                }"></i>
+                <i title "Eliminar" class="fa-solid text-danger fa-trash" data-id="${
+                  actual.id
+                }"></i>
+            </td>
+        </tr>`,
+        ""
+      )
+    :  `<tr>
+          <td colspan="6">
+            <button id="btnVaciar" class="btn mb-1 mb-sm-0 btn-outline-danger" type="button">
+              Borrar Todos Los Productos
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <h4 class="text-white bg-danger">No hay productos</h4>
+          </td>
+        </tr>`;
 }
 
 function renderCategorias(categorias) {
