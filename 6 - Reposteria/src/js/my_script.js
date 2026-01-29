@@ -187,7 +187,7 @@ function renderDialog(postres, cestas) {
       </figure>
       <h2>Orden de confirmación</h2>
       <ul class="carrito__productos">
-        ${cestas.reduce((anterior, actual) => {
+        ${cestas.length ? cestas.reduce((anterior, actual) => {
           let postre = postres.find((el) => el.id == actual.postreId);
           let totalPostre = actual.cantidad * postre.price;
           totalPrecio += totalPostre;
@@ -210,10 +210,15 @@ function renderDialog(postres, cestas) {
             </div>
           </li>`
           );
-        }, "")}
-        <p class="carrito__total">
+        }, "")
+        : `<h3>Su cesta <span class="carrito__total"></span></h3>
+        <p class="aviso">Sus articulos añadidos aparecerán aquí</p>`}
+
+        ${cestas.length ?
+          `<p class="carrito__total">
             Compra total<span class="precio">${totalPrecio}</span>
-        </p>
+          </p>` 
+          : ``}
       </ul>
       <button class="btn confirmar__btn" onclick="window.confirmar.close();">
         Nuevo pedido
