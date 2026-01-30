@@ -35,12 +35,13 @@ const addYears = (years, date = null) => {
 
 const $d = document,
   $listado = $d.querySelector(".listado"),
-  $formEmpleado = $d.querySelector("#formularioEmpleado"),
+  $formEmpleado = $d.querySelector(".formulario"),
   $empleados = $d.querySelector("#table_empleados>tbody"),
   $puestos = $formEmpleado.querySelector("fieldset>p>select"),
   $nuevoEmpleado = $listado.querySelector(".btn-success"),
   $btnAdd = $formEmpleado.querySelector(".btn-add"),
-  $btnReset = $formEmpleado.querySelector(".btn-reset");
+  $btnReset = $formEmpleado.querySelector(".btn-reset"),
+  $search = $listado.querySelector("#searchName");
 
 const empleados = [], puestos = [];
 const url = "http://localhost:3000";
@@ -100,6 +101,7 @@ function modificarSelected($opciones, value) {
 function fillForm(id) {
   $listado.classList.add('hidden');
   $formEmpleado.classList.remove('hidden');
+
   let empleado = empleados.find((el) => el.id == id);
   $btnAdd.setAttribute("data-id", empleado.id);
   $formEmpleado.querySelector("#nif").value = empleado.nif;
@@ -108,6 +110,7 @@ function fillForm(id) {
   $formEmpleado.querySelector("#avatar").value = empleado.avatar;
   $formEmpleado.querySelector("#contractDate").value = empleado.contractDate;
   modificarSelected($puestos, empleado.positionId);
+
   let puesto = puestos.find((el) => el.id == empleado.positionId);
   $formEmpleado.querySelector("#salary").value = puesto.salary;
 }
@@ -235,7 +238,14 @@ $nuevoEmpleado.addEventListener("click" ,(ev) => {
 
 $btnReset.addEventListener("click", (ev) => {
   mostrarListado();
-}) 
+})
+
+$search.addEventListener("keyup", (ev) => {
+  const empleadosFiltrados = empleados.filter((empleado) =>
+    empleado.name.toLowerCase().includes(ev.target.value.toLowerCase())
+  );
+  renderEmpleados(empleadosFiltrados, puestos);
+})
 
 function renderEmpleados(empleados, puestos) {
   $listado.querySelector("header>h2").innerHTML = `Lista de empleados (${empleados.length})`;
