@@ -193,11 +193,10 @@ function modificarSelected(select, id) {
   });
 }
 
-/* Funciones de rellenar y vaciar el formulario */
+/* Funciones de vaciar y rellenar el formulario */
 function unfillForm() {
   $camisetas.removeEventListener("click", evitarRecargarPagina);
   $camisetas.addEventListener("click", eventoCamisetas);
-  $formulario.querySelector("#enviar").removeAttribute("data-id");
   $formulario.querySelector("#equipo").removeAttribute("disabled");
   $formulario.querySelector("#eq").removeAttribute("disabled");
   $formulario.querySelector("#sexo").removeAttribute("disabled");
@@ -211,6 +210,7 @@ function unfillForm() {
   $formulario.querySelector("#L").value = 0;
   $formulario.querySelector("#XL").value = 0;
   $formulario.querySelector("#imagen").value = "";
+  $formulario.querySelector("#enviar").removeAttribute("data-id");
 }
 
 function fillForm(camiseta) {
